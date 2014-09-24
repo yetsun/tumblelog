@@ -7,8 +7,24 @@
       <p>
         {{ post.created_at.strftime('%H:%M %Y-%m-%d') }} |
         {% with total=post.comments|length %}
-            {{ total }} comment {%- if total > 1 %}s{%- endif -%}
+            {% if total > 0 %}
+                <a href="{{ url_for('posts.detail', slug=post.slug) }}">{{ total }} comment {%- if total > 1 %}s{%- endif -%}</a>
+            {% else %}
+                {{ total }} comment {%- if total > 1 %}s{%- endif -%}
+            {% endif %}
         {% endwith %}
       </p>
     {% endfor %}
+
+
+
+    <b>New post</b><p>
+    <form action="">
+    Title: <input name='title'/> <p>
+
+    Body:<p>
+    <textarea name='body'> </textarea> <p>
+
+    <input type='submit'/>
+    </form>
 {% endblock %}
