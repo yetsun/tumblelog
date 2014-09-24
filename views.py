@@ -9,9 +9,42 @@ posts = Blueprint('posts', __name__, template_folder='templates')
 
 class ListView(MethodView):
 
+    #PostForm is a class. It's the form generated from the model, Post
+    PostForm = model_form(Post, exclude=['comments', 'created_at', 'slug'])
+    
     def get(self):
+        form = self.PostForm(request.form)
         posts = Post.objects.all()
-        return render_template('posts/list.html', posts=posts)
+        context = {
+            #"post": Post(),
+            "form": form,
+            "posts": posts  
+        }
+
+
+        return render_template('posts/list.html', **context)#posts=posts)
+
+    
+    def post(self):
+
+        form = self.PostForm(request.form)
+
+        context = {
+            #"post": Post(),
+            "form": form,
+            #"posts": Post.objects.all() 
+        }
+
+        if form.validate():
+            post = Post()
+            form.populate_obj(post)
+            post.slug = post.title.replace(" ", "")
+            post.save()
+
+            return redirect(url_for('posts.list'))
+
+        return render_template('posts/list.html', **context)
+
 
 
 class DetailView(MethodView):
@@ -47,8 +80,10 @@ class DetailView(MethodView):
             post.comments.append(comment)
             post.save()
 
+            print 1
             return redirect(url_for('posts.detail', slug=slug))
 
+        print 2
         return render_template('posts/detail.html', **context)
 
 

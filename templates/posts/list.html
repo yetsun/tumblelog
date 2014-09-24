@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% import "_forms.html" as forms %}
+
+
+
+
 {% block content %}
     {% for post in posts %}
       <h2><a href="{{ url_for('posts.detail', slug=post.slug) }}">{{ post.title }}</a></h2>
@@ -17,14 +22,14 @@
     {% endfor %}
 
 
-
-    <b>New post</b><p>
-    <form action="">
-    Title: <input name='title'/> <p>
-
-    Body:<p>
-    <textarea name='body'> </textarea> <p>
-
-    <input type='submit'/>
+    <hr> 
+    <h2>Add a post</h2>
+    <form action="." method="post">
+    {{ forms.render(form) }}
+    <div class="actions">
+        <input type="submit" class="btn primary" value="Post"/>
+    </div>
     </form>
+
+
 {% endblock %}
