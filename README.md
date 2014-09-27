@@ -9,7 +9,8 @@ http://docs.mongodb.org/ecosystem/tutorial/write-a-tumblelog-application-with-fl
 
 
 
-WTForm
+**WTForm**
+
 1. in the blueprint, create the Form class from the model automatically, like the following:
 ```
 PostForm = model_form(Post, exclude=['comments', 'created_at', 'slug'])
@@ -26,6 +27,7 @@ context = {
 }
 return render_template('posts/list.html', **context)
 ```
+
 3. in the template, render the form instance
 ```
   <form action="." method="post">
